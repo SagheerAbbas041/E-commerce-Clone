@@ -139,7 +139,7 @@ const Cart = () => {
                             })
                              
                         ) : (
-                          data.map((product,index)=>{
+                          data?.map((product,index)=>{
                            return(
                             <div key={product?._id+"Add To Cart Loading"} className='w-full bg-white h-32 my-2 border border-slate-300  rounded grid grid-cols-[128px,1fr]'>
                                 <div className='w-32 h-32 bg-slate-200'>
