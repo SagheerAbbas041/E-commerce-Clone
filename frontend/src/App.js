@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { Outlet } from 'react-router-dom';
 import Header from './components/Header';
@@ -13,55 +12,68 @@ import { setUserDetails } from './store/userSlice';
 
 function App() {
   const dispatch = useDispatch()
-  const [cartProductCount,setCartProductCount] = useState(0)
+  const [cartProductCount, setCartProductCount] = useState(0)
 
-  const fetchUserDetails = async()=>{
-      const dataResponse = await fetch(SummaryApi.current_user.url,{
-        method : SummaryApi.current_user.method,
-        credentials : 'include'
+  const fetchUserDetails = async () => {
+    try {
+      const dataResponse = await fetch(SummaryApi.current_user.url, {
+        method: SummaryApi.current_user.method,
+        credentials: 'include'
       })
 
       const dataApi = await dataResponse.json()
 
-      if(dataApi.success){
+      if (dataApi.success) {
         dispatch(setUserDetails(dataApi.data))
       }
+    } catch (error) {
+      console.error("User fetch error:", error)
+    }
   }
 
-  const fetchUserAddToCart = async()=>{
-    const dataResponse = await fetch(SummaryApi.addToCartProductCount.url,{
-      method : SummaryApi.addToCartProductCount.method,
-      credentials : 'include'
-    })
+  const fetchUserAddToCart = async () => {
+    try {
+      const dataResponse = await fetch(SummaryApi.addToCartProductCount.url, {
+        method: SummaryApi.addToCartProductCount.method,
+        credentials: 'include'
+      })
 
-    const dataApi = await dataResponse.json()
+      const dataApi = await dataResponse.json()
 
-    setCartProductCount(dataApi?.data?.count)
+      if (dataApi.success) {
+        setCartProductCount(dataApi?.data?.count || 0)
+      } else {
+        setCartProductCount(0)
+      }
+    } catch (error) {
+      console.error("Cart count fetch error:", error)
+      setCartProductCount(0)
+    }
   }
 
-  useEffect(()=>{
-    /**user Details */
+  useEffect(() => {
+    /** user Details */
     fetchUserDetails()
-    /**user Details cart product */
+    /** user Details cart product */
     fetchUserAddToCart()
+  }, [])
 
-  },[])
   return (
     <>
       <Context.Provider value={{
-          fetchUserDetails, // user detail fetch 
-          cartProductCount, // current user add to cart product count,
-          fetchUserAddToCart
+        fetchUserDetails,    // user detail fetch 
+        cartProductCount,    // current user add to cart product count,
+        fetchUserAddToCart
       }}>
-        <ToastContainer 
+        <ToastContainer
           position='top-center'
         />
-        
-        <Header/>
+
+        <Header />
         <main className='min-h-[calc(100vh-120px)] pt-16'>
-          <Outlet/>
+          <Outlet />
         </main>
-        <Footer/>
+        <Footer />
       </Context.Provider>
     </>
   );

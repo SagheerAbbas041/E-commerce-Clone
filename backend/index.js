@@ -18,11 +18,16 @@ app.use(cors({
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            callback(null, true); // Production edge-cases block hone se bachane ke liye
+            callback(null, true);
         }
     },
-    credentials: true
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
 }))
+
+// Handle preflight requests explicitly
+app.options('*', cors());
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -37,6 +42,13 @@ app.use(async (req, res, next) => {
         console.error("Database connection failed:", err);
         res.status(500).json({ message: "Database connection failed", error: err.message });
     }
+});
+
+app.get("/", (req, res) => {
+    res.status(200).json({
+        message: "E-Commerce Backend Server is Running Smoothly!",
+        status: "OK"
+    });
 });
 
 app.use("/api", router)
