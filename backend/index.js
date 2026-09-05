@@ -10,6 +10,7 @@ const app = express()
 // Dynamic Allowed Origins
 const allowedOrigins = [
     "http://localhost:3000",
+    "https://e-commerce-clone-alpha.vercel.app",
     process.env.FRONTEND_URL
 ].filter(Boolean);
 
