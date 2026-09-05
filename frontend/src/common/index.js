@@ -1,6 +1,6 @@
-const backendDomin = process.env.NODE_ENV === 'development' 
-    ? "http://localhost:5000" 
-    : "https://e-commerce-clone-backend.vercel.app";
+const backendDomin = process.env.NODE_ENV === 'development'
+    ? "https://e-commerce-clone-backend.vercel.app"
+    : "http://localhost:5000"; 
 
 const SummaryApi = {
     signUP : {
