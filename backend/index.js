@@ -25,9 +25,9 @@ app.use(cors({
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
-}))
+}));
 
-// Handle preflight requests explicitly
+// Respond 200 OK to all preflight OPTIONS checks
 app.options('*', cors());
 
 app.use(express.json({ limit: '50mb' }));
