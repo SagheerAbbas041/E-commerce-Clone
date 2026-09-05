@@ -30,11 +30,12 @@ async function userSignInController(req, res) {
             }
             const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, { expiresIn: 60 * 60 * 8 });
 
-            // Updated token options
+            // backend/controller/user/userSignIn.js
+
             const tokenOption = {
                 httpOnly: true,
-                secure: true,          // MUST be true for SameSite=None
-                sameSite: 'none'       // MUST be lowercase 'none'
+                secure: true,           // HTTPS for Vercel deployment
+                sameSite: 'none'        // Required for cross-domain cookies
             }
 
             res.cookie("token", token, tokenOption).status(200).json({
