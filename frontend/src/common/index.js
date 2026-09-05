@@ -1,4 +1,4 @@
-const backendDomin = process.env.NODE_ENV === 'development'
+const backendDomin = process.env.REACT_APP_BACKEND_URL === 'development'
     ? "https://e-commerce-clone-backend.vercel.app"
     : "http://localhost:5000"; 
 
