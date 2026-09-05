@@ -1,4 +1,4 @@
-const backendDomin = "http://localhost:5000"
+const backendDomin = "http://localhost:5000 || https://e-commerce-clone-backend.vercel.app"
 
 const SummaryApi = {
     signUP : {
