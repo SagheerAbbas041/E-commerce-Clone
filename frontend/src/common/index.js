@@ -1,4 +1,6 @@
-const backendDomin = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+const backendDomin = process.env.NODE_ENV === 'development' 
+    ? "http://localhost:5000" 
+    : "https://e-commerce-clone-backend.vercel.app";
 
 const SummaryApi = {
     signUP : {
