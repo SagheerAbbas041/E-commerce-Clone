@@ -1,25 +1,25 @@
-const express = require('express')
-const cors = require('cors')
-const cookieParser = require('cookie-parser')
-require('dotenv').config()
-const connectDB = require('./config/db')
-const router = require('./routes')
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
+const connectDB = require('./config/db');
+const router = require('./routes');
 
-const app = express()
+const app = express();
 
-// Dynamic Allowed Origins
 const allowedOrigins = [
     "http://localhost:3000",
+    "http://localhost:5173",
     "https://e-commerce-clone-alpha.vercel.app",
     process.env.FRONTEND_URL
 ].filter(Boolean);
 
 app.use(cors({
     origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
-            callback(null, true);
+            callback(new Error('Not allowed by CORS'));
         }
     },
     credentials: true,
@@ -27,14 +27,11 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
 }));
 
-// Respond 200 OK to all preflight OPTIONS checks
-app.options('*', cors());
-
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
-app.use(cookieParser())
+app.use(cookieParser());
 
-// Middleware: Ensure DB Connection for every serverless request on Vercel
+// Middleware: Ensure DB Connection for Vercel Serverless
 app.use(async (req, res, next) => {
     try {
         await connectDB();
@@ -52,16 +49,14 @@ app.get("/", (req, res) => {
     });
 });
 
-app.use("/api", router)
+app.use("/api", router);
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 
-// Local Development listen logic
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
-        console.log("Connect to DB & Server is running on port " + PORT)
-    })
+        console.log("Connect to DB & Server is running on port " + PORT);
+    });
 }
 
-// Required for Vercel Serverless Deployment
 module.exports = app;

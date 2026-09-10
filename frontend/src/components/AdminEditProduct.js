@@ -97,18 +97,18 @@ const AdminEditProduct = ({
   }
 
   return (
-    <div className='fixed w-full  h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center'>
-    <div className='bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden'>
+    <div className='fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50 p-2 sm:p-4'>
+    <div className='bg-white p-3 sm:p-4 rounded-lg w-full max-w-2xl max-h-[92vh] sm:max-h-[85vh] flex flex-col justify-between overflow-hidden shadow-xl'>
 
-         <div className='flex justify-between items-center pb-3'>
-             <h2 className='font-bold text-lg'>Edit Product</h2>
-             <div className='w-fit ml-auto text-2xl hover:text-red-600 cursor-pointer' onClick={onClose}>
+         <div className='flex justify-between items-center pb-3 border-b'>
+             <h2 className='font-bold text-base sm:text-lg md:text-xl text-slate-800'>Edit Product</h2>
+             <div className='w-fit ml-auto text-xl sm:text-2xl hover:text-red-600 cursor-pointer transition-colors p-1' onClick={onClose}>
                  <CgClose/>
              </div>
          </div>
 
-       <form className='grid p-4 gap-2 overflow-y-scroll h-full pb-5' onSubmit={handleSubmit}>
-         <label htmlFor='productName'>Product Name :</label>
+       <form className='grid p-1 sm:p-4 gap-2 overflow-y-auto h-full pb-5' onSubmit={handleSubmit}>
+         <label htmlFor='productName' className='text-sm sm:text-base font-medium text-slate-700'>Product Name :</label>
          <input 
            type='text' 
            id='productName' 
@@ -116,12 +116,12 @@ const AdminEditProduct = ({
            name='productName'
            value={data.productName} 
            onChange={handleOnChange}
-           className='p-2 bg-slate-100 border rounded'
+           className='p-2 bg-slate-100 border rounded outline-none focus:bg-white focus:border-red-600 text-sm sm:text-base'
            required
          />
 
 
-         <label htmlFor='brandName' className='mt-3'>Brand Name :</label>
+         <label htmlFor='brandName' className='mt-2 sm:mt-3 text-sm sm:text-base font-medium text-slate-700'>Brand Name :</label>
          <input 
            type='text' 
            id='brandName' 
@@ -129,12 +129,12 @@ const AdminEditProduct = ({
            value={data.brandName} 
            name='brandName'
            onChange={handleOnChange}
-           className='p-2 bg-slate-100 border rounded'
+           className='p-2 bg-slate-100 border rounded outline-none focus:bg-white focus:border-red-600 text-sm sm:text-base'
            required
          />
 
-           <label htmlFor='category' className='mt-3'>Category :</label>
-           <select required value={data.category} name='category' onChange={handleOnChange} className='p-2 bg-slate-100 border rounded'>
+           <label htmlFor='category' className='mt-2 sm:mt-3 text-sm sm:text-base font-medium text-slate-700'>Category :</label>
+           <select required value={data.category} name='category' onChange={handleOnChange} className='p-2 bg-slate-100 border rounded outline-none focus:bg-white focus:border-red-600 text-sm sm:text-base'>
                <option value={""}>Select Category</option>
                {
                  productCategory.map((el,index)=>{
@@ -145,37 +145,37 @@ const AdminEditProduct = ({
                }
            </select>
 
-           <label htmlFor='productImage' className='mt-3'>Product Image :</label>
+           <label htmlFor='productImage' className='mt-2 sm:mt-3 text-sm sm:text-base font-medium text-slate-700'>Product Image :</label>
            <label htmlFor='uploadImageInput'>
-           <div className='p-2 bg-slate-100 border rounded h-32 w-full flex justify-center items-center cursor-pointer'>
-                     <div className='text-slate-500 flex justify-center items-center flex-col gap-2'>
-                       <span className='text-4xl'><FaCloudUploadAlt/></span>
-                       <p className='text-sm'>Upload Product Image</p>
-                       <input type='file' id='uploadImageInput'  className='hidden' onChange={handleUploadProduct}/>
+           <div className='p-2 bg-slate-100 border rounded h-28 sm:h-32 w-full flex justify-center items-center cursor-pointer hover:bg-slate-200 transition-colors'>
+                     <div className='text-slate-500 flex justify-center items-center flex-col gap-1 sm:gap-2'>
+                       <span className='text-3xl sm:text-4xl'><FaCloudUploadAlt/></span>
+                       <p className='text-xs sm:text-sm text-center'>Upload Product Image</p>
+                       <input type='file' id='uploadImageInput' className='hidden' onChange={handleUploadProduct}/>
                      </div>
            </div>
            </label> 
            <div>
                {
                  data?.productImage[0] ? (
-                     <div className='flex items-center gap-2'>
+                     <div className='flex items-center gap-2 flex-wrap max-h-40 overflow-y-auto p-1'>
                          {
                            data.productImage.map((el,index)=>{
                              return(
-                               <div className='relative group'>
+                               <div className='relative group' key={index}>
                                    <img 
                                      src={el} 
                                      alt={el} 
                                      width={80} 
                                      height={80}  
-                                     className='bg-slate-100 border cursor-pointer'  
+                                     className='bg-slate-100 border cursor-pointer w-16 h-16 sm:w-20 sm:h-20 object-scale-down rounded'  
                                      onClick={()=>{
                                        setOpenFullScreenImage(true)
                                        setFullScreenImage(el)
                                      }}/>
 
-                                     <div className='absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer' onClick={()=>handleDeleteProductImage(index)}>
-                                       <MdDelete/>  
+                                     <div className='absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer hover:bg-red-700' onClick={()=>handleDeleteProductImage(index)}>
+                                       <MdDelete className='text-xs sm:text-sm'/>  
                                      </div>
                                </div>
                                
@@ -190,7 +190,7 @@ const AdminEditProduct = ({
                
            </div>
 
-           <label htmlFor='price' className='mt-3'>Price :</label>
+           <label htmlFor='price' className='mt-2 sm:mt-3 text-sm sm:text-base font-medium text-slate-700'>Price :</label>
            <input 
              type='number' 
              id='price' 
@@ -198,12 +198,12 @@ const AdminEditProduct = ({
              value={data.price} 
              name='price'
              onChange={handleOnChange}
-             className='p-2 bg-slate-100 border rounded'
+             className='p-2 bg-slate-100 border rounded outline-none focus:bg-white focus:border-red-600 text-sm sm:text-base'
              required
            />
 
 
-           <label htmlFor='sellingPrice' className='mt-3'>Selling Price :</label>
+           <label htmlFor='sellingPrice' className='mt-2 sm:mt-3 text-sm sm:text-base font-medium text-slate-700'>Selling Price :</label>
            <input 
              type='number' 
              id='sellingPrice' 
@@ -211,13 +211,13 @@ const AdminEditProduct = ({
              value={data.sellingPrice} 
              name='sellingPrice'
              onChange={handleOnChange}
-             className='p-2 bg-slate-100 border rounded'
+             className='p-2 bg-slate-100 border rounded outline-none focus:bg-white focus:border-red-600 text-sm sm:text-base'
              required
            />
 
-           <label htmlFor='description' className='mt-3'>Description :</label>
+           <label htmlFor='description' className='mt-2 sm:mt-3 text-sm sm:text-base font-medium text-slate-700'>Description :</label>
            <textarea 
-             className='h-28 bg-slate-100 border resize-none p-1' 
+             className='h-24 sm:h-28 bg-slate-100 border resize-none p-2 rounded outline-none focus:bg-white focus:border-red-600 text-sm sm:text-base' 
              placeholder='enter product description' 
              rows={3} 
              onChange={handleOnChange} 
@@ -226,19 +226,10 @@ const AdminEditProduct = ({
            >
            </textarea>
 
-
-
-
-
-           <button className='px-3 py-2 bg-red-600 text-white mb-10 hover:bg-red-700'>Update Product</button>
+           <button className='px-3 py-2 bg-red-600 text-white my-4 hover:bg-red-700 rounded transition-colors text-sm sm:text-base font-medium w-full sm:w-auto ml-auto'>Update Product</button>
        </form> 
 
-
-
-   
     </div>
-
-
 
     {/***display image full screen */}
     {
@@ -247,7 +238,6 @@ const AdminEditProduct = ({
      )
     }
      
-
  </div>
   )
 }
